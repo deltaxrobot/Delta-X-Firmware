@@ -28,6 +28,7 @@ void MotionClass::init()
 	homeAngle.Theta2 = THETA2_HOME_POSITION;
 	homeAngle.Theta3 = THETA3_HOME_POSITION;
 	DeltaKinematics.ForwardKinematicsCalculations(homeAngle, Data.HomePosition);
+	//SetHomePosition();
 }
 
 void MotionClass::G0(float xPos, float yPos, float zPos, float ewPos)
@@ -38,7 +39,6 @@ void MotionClass::G0(float xPos, float yPos, float zPos, float ewPos)
 	{
 		if (ewPos != Data.WPosition)
 		{
-			Serial.println("W");
 			MultiServo.AddAngle(AXIS_4, ewPos);
 			Data.WPosition = ewPos;
 			MultiServo.Running();
@@ -264,7 +264,7 @@ bool MotionClass::CircleInterpolation(float i, float j, bool clockwise)
 
 	if (angular_travel < 0.01)
 		angular_travel = 0;
-
+/*
 	if (angular_travel == 0 && Data.CurrentPoint.X == Data.DesiredPoint.X && Data.CurrentPoint.Y == Data.DesiredPoint.Y)
 	{
 		if (clockwise)
@@ -276,16 +276,28 @@ bool MotionClass::CircleInterpolation(float i, float j, bool clockwise)
 			angular_travel = 2.0 * PI;
 		}
 	}
-
+*/
+	if (angular_travel == 0 && abs(Data.CurrentPoint.X - Data.DesiredPoint.X) < 0.4 && abs(Data.CurrentPoint.Y - Data.DesiredPoint.Y) < 0.4)
+	{
+		if (clockwise)
+		{
+			angular_travel = -2.0 * PI;
+		}
+		else
+		{
+			angular_travel = 2.0 * PI;
+		}
+	}
+	
 	float flat_mm = radius * abs(angular_travel);
-
+	
 	NumberSegment = floorf(flat_mm / Data.MMPerArcSegment);
 
 	if (NumberSegment < 7 && NumberSegment > 3)
 	{
 		NumberSegment = floorf(flat_mm * 2 / Data.MMPerArcSegment);
 	}
-	else
+	else if (NumberSegment <= 3)
 	{
 		NumberSegment = floorf(flat_mm * 4 / Data.MMPerArcSegment);
 	}
@@ -294,7 +306,7 @@ bool MotionClass::CircleInterpolation(float i, float j, bool clockwise)
 	{
 		return false;
 	}
-
+	
 	float theta_per_segment = angular_travel / NumberSegment;
 	float mm_per_seg = flat_mm / NumberSegment;
 
@@ -304,7 +316,7 @@ bool MotionClass::CircleInterpolation(float i, float j, bool clockwise)
 	Point endPoindInCircle = Tool.GetPointInCircle(o_x, o_y, radius, angle_Current + angular_travel);
     float distance2Point = Tool.CalDistance2Point(endPoindInCircle, Data.DesiredPoint);
 
-	if (distance2Point > 0.4)
+	if (distance2Point > 0.5)
 	{
 		return false;
 	}
@@ -316,11 +328,11 @@ bool MotionClass::CircleInterpolation(float i, float j, bool clockwise)
 		if (!DeltaKinematics.InverseKinematicsCalculations(pointBuffer, currentAngle)) return false;
 		UploadSegment(lastAngle, currentAngle, mm_per_seg, i - 1);
 		lastAngle = currentAngle;
+
 	}
 
 	if (!DeltaKinematics.InverseKinematicsCalculations(Data.DesiredPoint, currentAngle)) return false;
 	UploadSegment(lastAngle, currentAngle, mm_per_seg, NumberSegment - 1);
-
 	Data.CurrentPoint = Data.DesiredPoint;
 	Data.CurrentAngle = currentAngle;
 
