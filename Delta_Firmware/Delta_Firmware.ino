@@ -21,7 +21,7 @@
 Greetings! Thank you for choosing DeltaXFirmware as your delta robot firmware.
 
 To configure DeltaX you must edit Config.h and Geometry.h
-located in the root 'Marlin' folder.
+located in the root 'Delta_Firmware' folder.
 
 ==============================================================================================================
 Delta X Gcode
@@ -234,4 +234,3 @@ Parameters:
 
 
  */
-

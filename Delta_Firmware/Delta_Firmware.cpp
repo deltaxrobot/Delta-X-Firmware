@@ -63,7 +63,7 @@ void setup() {
 	GcodeExecute.Init(&GCodeQueue);
 
 	Serial.println("Init Success!");
-	//Motion.G28();
+	Motion.G28();
 }
 
 void loop() {
@@ -71,6 +71,3 @@ void loop() {
 	GcodeExecute.Run();
 	ConnectionState.Execute();
 }
-
-
-
