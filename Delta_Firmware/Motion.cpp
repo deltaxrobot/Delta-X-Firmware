@@ -262,7 +262,7 @@ bool MotionClass::CircleInterpolation(float i, float j, bool clockwise)
 	if (angular_travel < 0) angular_travel += 2.0 * PI;
 	if (clockwise) angular_travel -= 2.0 * PI;
 
-	if (angular_travel < 0.01)
+	if (angular_travel > -0.01 && angular_travel < 0.01)
 		angular_travel = 0;
 /*
 	if (angular_travel == 0 && Data.CurrentPoint.X == Data.DesiredPoint.X && Data.CurrentPoint.Y == Data.DesiredPoint.Y)
