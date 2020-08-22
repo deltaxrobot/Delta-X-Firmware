@@ -71,9 +71,5 @@ void WifiSettingsClass::GetPswd()
 	SERIAL_PORT.println("PSWD:" + PSWDWifi);
 }
 
-
-
-
-
 WifiSettingsClass WifiSettings;
 
