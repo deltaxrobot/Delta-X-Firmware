@@ -103,7 +103,11 @@ void GCodeReceiverClass::Execute()
 			WifiSettings.PSWDWifi = valueString;
 			Serial.println("Ok");
 		}
-		else if (keyString == "ESPIP") WifiSettings.IPWifi = valueString;
+		else if (keyString == "ESPIP") 
+		{
+			WifiSettings.IPWifi = valueString;
+			Serial.println(valueString);
+		}
 	}
 
 	receiveString = "";
