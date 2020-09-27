@@ -137,14 +137,15 @@ class TemperatureClass
 	void SetHotendTemperature(float temperature);
 	bool WaitForHotendTemperature();
 	void Cooldown();
+	void GetTemperature();
 
 	void ISR_EXECUTE();
 	bool IsWait;
-private:
+
 	float CurrentTemperature;
+private:
 	float DesiredTemperature;
 
-	void GetTemperature();
 	
 	float I;
 	float LastError;

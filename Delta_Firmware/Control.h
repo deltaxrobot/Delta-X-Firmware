@@ -55,6 +55,7 @@ class ControlClass
 	void M84();//Disanable Step
 
 	void M104(float s); //Set Hotend Temperature
+	void M105();
 	void M109();//Wait for Hotend Temperature
 
 	void M203(float s);//Set Max Feedrate

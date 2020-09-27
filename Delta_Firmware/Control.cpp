@@ -85,6 +85,14 @@ void ControlClass::M104(float s)
 	Data.IsExecutedGcode = true;
 }
 
+void ControlClass::M105()
+{
+	Temperature.GetTemperature();
+	SERIAL_PORT.print("T:");
+	SERIAL_PORT.println(Temperature.CurrentTemperature);
+	Data.IsExecutedGcode = true;
+}
+
 void ControlClass::M109()
 {
 	Temperature.IsWait = true;

@@ -231,6 +231,9 @@ void GCodeExecuteClass::checkAndRunFunction(KeyValue keyValue)
 			if (S > 240) S = 240;
 			Control.M104(S);
 			break;
+		case  105:
+			Control.M105();
+			break;
 		case 109:
 			Control.M109();
 			break;
