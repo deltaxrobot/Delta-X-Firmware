@@ -51,9 +51,15 @@ void GCodeReceiverClass::Execute()
 	}
 
 	if (!isStringComplete)
+	{
+		if (receiveString.length() > 70)
+		{
+			receiveString = "";
+		}
+		
 		return;
-
-	
+	}
+		
 	if (receiveString[0] == 'M' || receiveString[0] == 'G')
 	{
 		GCodeQueue->push_back(receiveString);
@@ -67,8 +73,8 @@ void GCodeReceiverClass::Execute()
 	if (index == -1)
 	{
 		if (receiveString == "IsDelta") ConnectionState.Connect();
-		if (receiveString == "Disconnect") ConnectionState.Disconnect();
-		if (receiveString == "Position")
+		else if (receiveString == "Disconnect") ConnectionState.Disconnect();
+		else if (receiveString == "Position")
 		{
 			Serial.print(Data.CurrentPoint.X);
 			Serial.print(",");
@@ -76,19 +82,32 @@ void GCodeReceiverClass::Execute()
 			Serial.print(",");
 			Serial.println(Data.CurrentPoint.Z);
 		}
-		if (receiveString == "SAVEWIFI") WifiSettings.Save();
-		if (receiveString == "SAVEIP") WifiSettings.SaveIP();
-		if (receiveString == "IP") WifiSettings.IP();
-		if (receiveString == "gSsid") WifiSettings.GetSsid();
-		if (receiveString == "gPswd") WifiSettings.GetPswd();
+		else if (receiveString == "SAVEWIFI") {
+			WifiSettings.Save();
+			Serial.println("Ok");	
+		}
+		else if (receiveString == "SAVEIP") WifiSettings.SaveIP();
+		else if (receiveString == "IP") WifiSettings.IP();
+		else if (receiveString == "gSsid") WifiSettings.GetSsid();
+		else if (receiveString == "gPswd") WifiSettings.GetPswd();
 	}
 	else
 	{
 		String keyString = receiveString.substring(0, index);
 		String valueString = receiveString.substring(index + 1);
-		if (keyString == "SSID") WifiSettings.SSIDWifi = valueString;
-		if (keyString == "PSWD") WifiSettings.PSWDWifi = valueString;
-		if (keyString == "ESPIP") WifiSettings.IPWifi = valueString;
+		if (keyString == "SSID") {
+			WifiSettings.SSIDWifi = valueString;
+			Serial.println("Ok");
+		}
+		else if (keyString == "PSWD") {
+			WifiSettings.PSWDWifi = valueString;
+			Serial.println("Ok");
+		}
+		else if (keyString == "ESPIP") 
+		{
+			WifiSettings.IPWifi = valueString;
+			Serial.println(valueString);
+		}
 	}
 
 	receiveString = "";
