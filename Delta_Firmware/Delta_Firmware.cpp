@@ -58,6 +58,7 @@ void setup() {
 	MultiServo.init();
 	ConnectionState.Init();
 	Motion.init();
+	Temperature.init();
 
 	GcodeReceiver.Init(&GCodeQueue, &SERIAL_PORT, BAUDRATE);
 	GcodeExecute.Init(&GCodeQueue);
@@ -70,4 +71,5 @@ void loop() {
 	GcodeReceiver.Execute();
 	GcodeExecute.Run();
 	ConnectionState.Execute();
+	Temperature.ISR_EXECUTE();
 }

@@ -116,16 +116,18 @@ const short temptable_60[][2] PROGMEM = {
 #define TurnOffTimer4 (TIMSK4 &= ~(1 << OCIE4A))
 #define COMPARE_VALUE_TIMER4 OCR4A
 
-#define INTERRUPT_CYCLE_TIMER4	10	//ms
+#define INTERRUPT_CYCLE_TIMER4	30	//ms
 
 #define DEFAULT_KP 22.2
 #define DEFAULT_KI 0.2
 #define DEFAULT_KD 65
 
 #define TEMP_RESIDENCY_TIME 2  // (seconds)
-#define TEMP_HYSTERESIS 5       // (degC) range of +/- temperatures considered "close" to the target one
+#define TEMP_HYSTERESIS 10       // (degC) range of +/- temperatures considered "close" to the target one
 
 #define PGM_RD_W(x)   (short)pgm_read_word(&x)
+
+#define INTERRUPT_CYCLE_TEMP 30
 
 class TemperatureClass
 {
@@ -146,7 +148,7 @@ class TemperatureClass
 private:
 	float DesiredTemperature;
 
-	
+	uint32_t LastTimeInt;
 	float I;
 	float LastError;
 	uint32_t LastTime;

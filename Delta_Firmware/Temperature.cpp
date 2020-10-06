@@ -25,21 +25,6 @@ void TemperatureClass::init()
 	pinMode(THERMISTOR_PIN, INPUT);
 	pinMode(HEATER_PIN, OUTPUT);
 	analogWrite(HEATER_PIN, 0);
-
-	noInterrupts();
-	// Reset register relate to Timer 3
-	// Reset register relate
-	TCCR4A = TCCR4B = TCNT4 = 0;
-	// Set CTC mode to Timer 3
-	TCCR4B |= (1 << WGM42);
-	// Set prescaler 8 to Timer 3
-	TCCR4B |= (1 << CS41);
-	//Normal port operation, OCxA disconnected
-	TCCR4A &= ~((1 << COM4A1) | (1 << COM4A0) | (1 << COM4B1) | (1 << COM4B0));
-
-	COMPARE_VALUE_TIMER4 = roundf(INTERRUPT_CYCLE_TIMER4 * F_CPU / (1000.0 * 8)) - 1;
-	interrupts();
-	TurnOffTimer4;
 }
 
 void TemperatureClass::GetTemperature()
@@ -80,11 +65,11 @@ void TemperatureClass::SetHotendTemperature(float temperature)
 	if (DesiredTemperature == 0)
 	{
 		Cooldown();
-		TurnOffTimer4;
+		
 	}
 	else
 	{
-		TurnOnTimer4;
+		LastTimeInt = millis();
 	}
 }
 
@@ -117,11 +102,18 @@ void TemperatureClass::Cooldown()
 
 void TemperatureClass::ISR_EXECUTE()
 {
-	if (Data.End_Effector != USE_PRINTER)
+	if (Data.End_Effector != USE_PRINTER || DesiredTemperature == 0)
 	{
-		Cooldown();
+		//Cooldown();
+		//ExecuteTempTimer.pause();
 		return;
 	}
+
+	if (millis() - LastTimeInt < INTERRUPT_CYCLE_TEMP)
+	{
+		return;
+	}
+	LastTimeInt = millis();
 
 	GetTemperature();
 
@@ -144,11 +136,6 @@ void TemperatureClass::ISR_EXECUTE()
 	pwmValue = constrain(pwmValue, 0, 255);
 
 	analogWrite(HEATER_PIN, pwmValue);
-}
-
-ISR(TIMER4_COMPA_vect)
-{
-	Temperature.ISR_EXECUTE();
 }
 
 TemperatureClass Temperature;

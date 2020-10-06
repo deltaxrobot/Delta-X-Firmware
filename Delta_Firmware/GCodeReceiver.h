@@ -33,6 +33,7 @@
 #include "ConnectionState.h"
 #include "WifiSettings.h"
 #include "Constants.h"
+#include "Temperature.h"
 
 using namespace std;
 

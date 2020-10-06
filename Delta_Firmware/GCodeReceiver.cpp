@@ -90,6 +90,12 @@ void GCodeReceiverClass::Execute()
 		else if (receiveString == "IP") WifiSettings.IP();
 		else if (receiveString == "gSsid") WifiSettings.GetSsid();
 		else if (receiveString == "gPswd") WifiSettings.GetPswd();
+		else if (receiveString == "Temp")
+		{
+			Temperature.GetTemperature();
+			Serial.print("T:");
+			Serial.println(Temperature.CurrentTemperature);
+		}
 	}
 	else
 	{
