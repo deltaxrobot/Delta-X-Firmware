@@ -209,6 +209,15 @@ bool MotionClass::LinearInterpolation()
 		Data.IsExecutedGcode = true;
 		return false;
 	}
+
+	Angle angle_;
+	DeltaKinematics.InverseKinematicsCalculations(Data.DesiredPoint, angle_);
+
+	if (!Tool.CheckingDesiredAngle(angle_))
+	{
+		//Data.IsExecutedGcode = true;
+		return false;
+	}
 	
 	NumberSegment = floorf(distance2Point / Data.MMPerLinearSegment);
 

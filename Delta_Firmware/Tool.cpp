@@ -22,8 +22,6 @@
 
 void ToolClass::init()
 {
-
-
 }
 
 Point ToolClass::ConvertToPoint(float xPos, float yPos, float zPos)
@@ -40,7 +38,7 @@ Point ToolClass::ConvertToPoint(float xPos, float yPos, float zPos)
 		{
 			zPos = zPos + Data.ZOffset;
 		}
-	}	
+	}
 
 	Point pointBuffer;
 	pointBuffer.X = xPos;
@@ -52,9 +50,11 @@ Point ToolClass::ConvertToPoint(float xPos, float yPos, float zPos)
 
 bool ToolClass::CheckingDesiredPoint(Point point)
 {
-	if (point.Z < Data.RD_W - Data.MOVING_AREA_Z) return false;
+	if (point.Z < Data.RD_W - Data.MOVING_AREA_Z)
+		return false;
 
-	if (sqrt(pow(point.X, 2) + pow(point.Y, 2)) > Data.MOVING_AREA_LARGEST_DIAMETER) return false;
+	if (sqrt(pow(point.X, 2) + pow(point.Y, 2)) > Data.MOVING_AREA_LARGEST_DIAMETER)
+		return false;
 
 	Data.DesiredPoint = point;
 
@@ -63,6 +63,12 @@ bool ToolClass::CheckingDesiredPoint(Point point)
 
 bool ToolClass::CheckingDesiredAngle(Angle angle)
 {
+	if (angle.Theta1 < THETA1_HOME_POSITION)
+		return false;
+	if (angle.Theta2 < THETA2_HOME_POSITION)
+		return false;
+	if (angle.Theta3 < THETA3_HOME_POSITION)
+		return false;
 	return true;
 }
 
@@ -110,7 +116,8 @@ float ToolClass::CalDistance2Point(Point point1, Point point2)
 
 	float distance = sqrt(pow(x_Offset, 2) + pow(y_Offset, 2) + pow(z_Offset, 2));
 
-	if (distance < 0.2 && distance > -0.2) distance = 0;
+	if (distance < 0.2 && distance > -0.2)
+		distance = 0;
 
 	return distance;
 }
@@ -130,7 +137,7 @@ bool ToolClass::Wait()
 			return false;
 		}
 	}
-	else 
+	else
 	{
 		if (millis() - LastTime < TimeDelay)
 		{
@@ -152,4 +159,3 @@ void ToolClass::SetTimeDelay(float timeDelay)
 }
 
 ToolClass Tool;
-
