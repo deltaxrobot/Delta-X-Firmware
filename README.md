@@ -12,7 +12,7 @@ IDE (can use):
  - Visual Code
 
 Library
- - ArduinoSTL (Please install ***ArduinoSTL*** library in Arduino Software)
+ - ArduinoSTL (Please install ***ArduinoSTL*** library in ***Arduino Software 1.8.6*** to compile and upload firmware)
 
 
 The circuit diagram is like a Reprap 3D printer:
