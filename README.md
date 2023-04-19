@@ -12,10 +12,8 @@ IDE (can use):
  - Visual Code
 
 Library
- - STL
+ - ArduinoSTL (Please install ***ArduinoSTL*** library in Arduino Software)
 
-!!! note "Note"
-    Please install ***ArduinoSTL*** library in Arduino Software
 
 The circuit diagram is like a Reprap 3D printer:
  - Arduino mega 2560
