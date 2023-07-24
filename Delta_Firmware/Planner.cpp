@@ -51,9 +51,9 @@ void PlannerClass::AddHomeSegment()
 
 	Segment segbuffer2;
 	float offset[3];
-	offset[0] = 10;
-	offset[1] = 10;
-	offset[2] = 10;
+	offset[0] = Data.HomingLimit;
+	offset[1] = Data.HomingLimit;
+	offset[2] = Data.HomingLimit;
 	for (uint8_t i = 0; i < 3; i++)
 	{
 		segbuffer2.StepperArray[i] = ChangeToStep(offset, i);

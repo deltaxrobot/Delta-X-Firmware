@@ -29,6 +29,10 @@
 #define SERIAL_PORT Serial
 #define BAUDRATE 115200
 
+#ifndef HOMING_LIMIT // defines how low the shoulders move when homing occurs. 
+ #define HOMING_LIMIT 7
+#endif
+
 #define DELTA_AXIS_4
 #ifdef DELTA_AXIS_4
 
