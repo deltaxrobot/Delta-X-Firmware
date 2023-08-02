@@ -63,8 +63,8 @@
 
 #define CLIP
 #ifdef CLIP
- #define CLIP_OPEN_ANGLE_SERVO 110
- #define CLIP_CLOSE_ANGLE_SERVO 55
+ #define CLIP_OPEN_ANGLE_SERVO 200
+ #define CLIP_CLOSE_ANGLE_SERVO 80
  #define CLIP_DEG_PER_SECONDS	400 //for RC Servo 9G
 #endif // CLIP
 
