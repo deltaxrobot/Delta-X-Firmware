@@ -49,24 +49,24 @@ void PlannerClass::AddHomeSegment()
 	}
 	SegmentQueue->push_back(segbuffer);
 
-	Segment segbuffer2;
-	float offset[3];
-	offset[0] = Data.HomingLimit;
-	offset[1] = Data.HomingLimit;
-	offset[2] = Data.HomingLimit;
-	for (uint8_t i = 0; i < 3; i++)
-	{
-		segbuffer2.StepperArray[i] = ChangeToStep(offset, i);
-	}
-	SegmentQueue->push_back(segbuffer2);
+	// Segment segbuffer2;
+	// float offset[3];
+	// offset[0] = Data.HomingLimit;
+	// offset[1] = Data.HomingLimit;
+	// offset[2] = Data.HomingLimit;
+	// for (uint8_t i = 0; i < 3; i++)
+	// {
+	// 	segbuffer2.StepperArray[i] = ChangeToStep(offset, i);
+	// }
+	// SegmentQueue->push_back(segbuffer2);
 
-	Segment segbuffer1;
-	for (uint8_t i = 0; i < 3; i++)
-	{
-		segbuffer1.StepperArray[i].StepsToJump = STEP_NULL;
-		segbuffer1.StepperArray[i].Direction = DECREASE;
-	}
-	SegmentQueue->push_back(segbuffer1);
+	// Segment segbuffer1;
+	// for (uint8_t i = 0; i < 3; i++)
+	// {
+	// 	segbuffer1.StepperArray[i].StepsToJump = STEP_NULL;
+	// 	segbuffer1.StepperArray[i].Direction = DECREASE;
+	// }
+	// SegmentQueue->push_back(segbuffer1);
 
 	LastError[0] = 0;
 	LastError[1] = 0;
