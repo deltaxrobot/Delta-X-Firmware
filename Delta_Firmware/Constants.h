@@ -94,6 +94,7 @@ public:
 	float ExtrustionPosition;
 
 	int WPosition;
+	int HomingLimit;
 private:
 
 };
