@@ -27,7 +27,7 @@ void MotionClass::init()
 	homeAngle.Theta1 = THETA1_HOME_POSITION;
 	homeAngle.Theta2 = THETA2_HOME_POSITION;
 	homeAngle.Theta3 = THETA3_HOME_POSITION;
-	DeltaKinematics.ForwardKinematicsCalculations(homeAngle, Data.HomePosition);
+	DeltaKinematics.ForwardKinematicsCalc(homeAngle, Data.HomePosition);
 	//SetHomePosition();
 }
 
@@ -35,15 +35,12 @@ void MotionClass::G0(float xPos, float yPos, float zPos, float ewPos)
 {
 	Point pointBuffer = Tool.ConvertToPoint(xPos, yPos, zPos);
 
-	if (Data.End_Effector != USE_PRINTER)
+	if (ewPos != Data.WPosition)
 	{
-		if (ewPos != Data.WPosition)
-		{
-			MultiServo.AddAngle(AXIS_4, ewPos);
-			Data.WPosition = ewPos;
-			MultiServo.Running();
-			Data.IsExecutedGcode = true;
-		}
+		MultiServo.AddAngle(AXIS_4, ewPos);
+		Data.WPosition = ewPos;
+		MultiServo.Running();
+		Data.IsExecutedGcode = true;
 	}
 
 	if (Tool.CheckingDesiredPoint(pointBuffer) == false) return;
@@ -59,34 +56,17 @@ void MotionClass::G1(float xPos, float yPos, float zPos, float ewPos)
 {
 	Point pointBuffer = Tool.ConvertToPoint(xPos, yPos, zPos);
 
-	if (Data.End_Effector != USE_PRINTER)
+	if (ewPos != Data.WPosition)
 	{
-		if (ewPos != Data.WPosition)
-		{
-			MultiServo.AddAngle(AXIS_4, ewPos);
-			Data.WPosition = ewPos;
-			MultiServo.Running();
-			Data.IsExecutedGcode = true;
-		}
-	}
-
-	if (Tool.CheckingDesiredPoint(pointBuffer) == false && Data.End_Effector != USE_PRINTER) return;
-
-	if (LinearInterpolation() == false && Data.End_Effector != USE_PRINTER) return;
-
-	if (Data.End_Effector == USE_PRINTER)
-	{
-		float offset = ewPos - Data.ExtrustionPosition;
-
-		if (offset < 0.01 &&  offset > -0.01)
-		{
-			offset = 0;
-		}
-
-		Planner.AddExtrustionSegment(offset);
+		MultiServo.AddAngle(AXIS_4, ewPos);
+		Data.WPosition = ewPos;
+		MultiServo.Running();
 		Data.IsExecutedGcode = true;
-		Data.ExtrustionPosition = ewPos;
 	}
+
+	if (Tool.CheckingDesiredPoint(pointBuffer) == false) return;
+
+	if (LinearInterpolation() == false) return;
 
 	Data.IsExecutedGcode = true;
 	Stepper.Running();
@@ -211,7 +191,7 @@ bool MotionClass::LinearInterpolation()
 	}
 
 	Angle angle_;
-	DeltaKinematics.InverseKinematicsCalculations(Data.DesiredPoint, angle_);
+	DeltaKinematics.InverseKinematicsCalc(Data.DesiredPoint, angle_);
 
 	if (!Tool.CheckingDesiredAngle(angle_))
 	{
@@ -234,7 +214,7 @@ bool MotionClass::LinearInterpolation()
 	{
 		tbuffer = (float)i / NumberSegment;
 		Point pointBuffer = Tool.GetPointInLine(Data.CurrentPoint, Data.DesiredPoint, tbuffer);
-		DeltaKinematics.InverseKinematicsCalculations(pointBuffer, currentAngle);
+		DeltaKinematics.InverseKinematicsCalc(pointBuffer, currentAngle);
 
 		UploadSegment(lastAngle, currentAngle, mm_per_seg, i - 1);
 		lastAngle = currentAngle;
@@ -334,13 +314,13 @@ bool MotionClass::CircleInterpolation(float i, float j, bool clockwise)
 	{
 		Point pointBuffer = Tool.GetPointInCircle(o_x, o_y, radius, angle_Current + (float)i * theta_per_segment);
 
-		if (!DeltaKinematics.InverseKinematicsCalculations(pointBuffer, currentAngle)) return false;
+		if (!DeltaKinematics.InverseKinematicsCalc(pointBuffer, currentAngle)) return false;
 		UploadSegment(lastAngle, currentAngle, mm_per_seg, i - 1);
 		lastAngle = currentAngle;
 
 	}
 
-	if (!DeltaKinematics.InverseKinematicsCalculations(Data.DesiredPoint, currentAngle)) return false;
+	if (!DeltaKinematics.InverseKinematicsCalc(Data.DesiredPoint, currentAngle)) return false;
 	UploadSegment(lastAngle, currentAngle, mm_per_seg, NumberSegment - 1);
 	Data.CurrentPoint = Data.DesiredPoint;
 	Data.CurrentAngle = currentAngle;
@@ -377,7 +357,7 @@ bool MotionClass::Bezier4PointInterpolation(Point p1, Point p2)
 
 		Point f = Tool.GetPointInLine(d, e, i * tbuffer);
 
-		if (!DeltaKinematics.InverseKinematicsCalculations(f, currentAngle)) return false;
+		if (!DeltaKinematics.InverseKinematicsCalc(f, currentAngle)) return false;
 
 		distanceBuffer = Tool.CalDistance2Point(f, lastPoint);
 		UploadSegment(lastAngle, currentAngle, distanceBuffer, i - 1);

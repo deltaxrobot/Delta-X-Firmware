@@ -29,7 +29,6 @@
 #endif
 
 #include "Constants.h"
-#include "Temperature.h"
 
 class ToolClass
 {

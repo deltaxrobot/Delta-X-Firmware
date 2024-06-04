@@ -1,21 +1,5 @@
 /**
- * Delta X Firmware
- * Copyright (c) 2020 DeltaXFirmware [https://github.com/deltaxrobot/Delta-X-Firmware]
- *
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ *	Delta 運動學 cpp
  */
 
 #include "DeltaKinematics.h"
@@ -28,7 +12,8 @@ void DeltaKinematicsClass::init()
 	RD_RE_Pow2 = Data.RD_RE*Data.RD_RE;
 }
 
-bool DeltaKinematicsClass::ForwardKinematicsCalculations(Angle angleposition, Point &point)
+//@ 正運動學
+bool DeltaKinematicsClass::ForwardKinematicsCalc(Angle angleposition, Point &point)
 {
 	float theta1 = DEG_TO_RAD * angleposition.Theta1;
 	float theta2 = DEG_TO_RAD * angleposition.Theta2;
@@ -77,7 +62,8 @@ bool DeltaKinematicsClass::ForwardKinematicsCalculations(Angle angleposition, Po
 	return true;
 }
 
-bool DeltaKinematicsClass::AngleThetaCalculations(float x0, float y0, float z0, float &theta)
+//@ 逆運動學
+bool DeltaKinematicsClass::AngleThetaCalc(float x0, float y0, float z0, float &theta)
 {
 	//float y1 = -0.5 * tan30 * Data.RD_F;
 	//y0 -= 0.5 * tan30 * Data.RD_E;
@@ -86,12 +72,12 @@ bool DeltaKinematicsClass::AngleThetaCalculations(float x0, float y0, float z0, 
 
 	// z = a + b*y
 	//float a = (x0*x0 + y0 * y0 + z0 * z0 + Data.RD_RF*Data.RD_RF - Data.RD_RE*Data.RD_RE - y1 * y1) / (2.0*z0);
-	float a = (x0*x0 + y0 * y0 + z0 * z0 + RD_RF_Pow2 - RD_RE_Pow2 - y1 * y1) / (2.0*z0);
-	float b = (y1 - y0) / z0;
+	float a = (x0*x0 + y0*y0 + z0*z0 + RD_RF_Pow2-RD_RE_Pow2 - y1*y1) / (2.0*z0);
+	float b = (y1-y0) / z0;
 
 	// discriminant
 	//float d = -(a + b * y1)*(a + b * y1) + Data.RD_RF* (b*b*Data.RD_RF + Data.RD_RF);
-	float d = -(a + b * y1)*(a + b * y1) + b*b*RD_RF_Pow2 + RD_RF_Pow2;
+	float d = -(a + b*y1)*(a + b*y1) + b*b*RD_RF_Pow2 + RD_RF_Pow2;
 
 	if (d < 0) return false;
 
@@ -103,17 +89,18 @@ bool DeltaKinematicsClass::AngleThetaCalculations(float x0, float y0, float z0, 
 	return true;
 }
 
-bool DeltaKinematicsClass::InverseKinematicsCalculations(Point point, Angle &angleposition)
-{	
-	if (!AngleThetaCalculations(point.X, point.Y, point.Z, angleposition.Theta1))
+//@ 逆運動學計算結果驗證
+bool DeltaKinematicsClass::InverseKinematicsCalc(Point point, Angle &angleposition)
+{
+	if (!AngleThetaCalc(point.X, point.Y, point.Z, angleposition.Theta1))
 	{
 		return false;
 	}
-	if (!AngleThetaCalculations(point.X * cos120 + point.Y * sin120, point.Y * cos120 - point.X * sin120, point.Z, angleposition.Theta2))
+	if (!AngleThetaCalc(point.X * cos120 + point.Y * sin120, point.Y * cos120 - point.X * sin120, point.Z, angleposition.Theta2))
 	{
 		return false;
 	}
-	if (!AngleThetaCalculations(point.X * cos120 - point.Y * sin120, point.Y * cos120 + point.X * sin120, point.Z, angleposition.Theta3))
+	if (!AngleThetaCalc(point.X * cos120 - point.Y * sin120, point.Y * cos120 + point.X * sin120, point.Z, angleposition.Theta3))
 	{
 		return false;
 	}

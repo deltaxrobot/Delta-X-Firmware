@@ -34,7 +34,6 @@
 #include "EndStops.h"
 #include "EndEffector.h"
 #include "MultiServo.h"
-#include "Temperature.h"
 #include "ConnectionState.h"
 
 using namespace std;
@@ -58,7 +57,6 @@ void setup() {
 	MultiServo.init();
 	ConnectionState.Init();
 	Motion.init();
-	Temperature.init();
 
 	GcodeReceiver.Init(&GCodeQueue, &SERIAL_PORT, BAUDRATE);
 	GcodeExecute.Init(&GCodeQueue);
@@ -67,9 +65,10 @@ void setup() {
 	Motion.G28();
 }
 
+// int count_test = 0;
+
 void loop() {
 	GcodeReceiver.Execute();
 	GcodeExecute.Run();
 	ConnectionState.Execute();
-	Temperature.ISR_EXECUTE();
 }

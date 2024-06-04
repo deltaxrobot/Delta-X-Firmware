@@ -131,20 +131,6 @@ void StepperClass::Running()
 		}
 	}
 
-	if (Data.End_Effector == USE_PRINTER)
-	{
-		WRITE(EXTRUSDER_DIRECTION_PIN, Planner.ExtrustionStepsDirection);
-		ExtrustionStepMotor.InterruptNumberNextStep = 0;
-
-		if (Planner.ExtrustionStepsToJump == 0)
-		{
-			ExtrustionStepMotor.NumberInterrupt2Step = STEP_NULL;
-		}
-		else
-		{
-			ExtrustionStepMotor.NumberInterrupt2Step = (float)Planner.NumberIntRoad / Planner.ExtrustionStepsToJump;
-		}
-	}
 
 	CurrentCycle = Planner.BeginEndIntCycle;
 	MaxCycle = Planner.BeginEndIntCycle;
@@ -252,19 +238,6 @@ void StepperClass::Isr_Execute_Velocity()
 		}
 	}
 
-	if (Data.End_Effector == USE_PRINTER)
-	{
-		if (ExtrustionStepMotor.InterruptNumberNextStep < TotalTnterruptNumber)
-		{
-			ExtrustionStepMotor.InterruptNumberNextStep += ExtrustionStepMotor.NumberInterrupt2Step;
-			if (Planner.ExtrustionStepsToJump != 0)
-			{
-				Planner.ExtrustionStepsToJump--;
-				WRITE(EXTRUSDER_PULSE_PIN, HIGH);
-			}
-		}
-	}
-
 	TurnOnTimer2;
 	
 	if (CurrentMoveSegment.StepperArray[0].StepsToJump == 0 && CurrentMoveSegment.StepperArray[1].StepsToJump == 0 && CurrentMoveSegment.StepperArray[2].StepsToJump == 0)
@@ -325,11 +298,6 @@ void StepperClass::Isr_Turn_Pulse_Pin()
 	for (uint8_t i = 0; i < 3; i++)
 	{
 		writePulsePin(ThetaStepMotor[i].Name, 0);
-	}
-
-	if (Data.End_Effector == USE_PRINTER)
-	{
-		WRITE(EXTRUSDER_PULSE_PIN, LOW);
 	}
 	TurnOffTimer2;
 }
@@ -491,10 +459,6 @@ void StepperClass::DisanableStepper()
 	WRITE(THETA1_ENABLE_PIN, HIGH);
 	WRITE(THETA2_ENABLE_PIN, HIGH);
 	WRITE(THETA3_ENABLE_PIN, HIGH);
-	if (Data.End_Effector == USE_PRINTER)
-	{
-		WRITE(EXTRUSDER_ENABLE_PIN, HIGH);
-	}	
 }
 
 void StepperClass::EnableStepper()
@@ -502,10 +466,6 @@ void StepperClass::EnableStepper()
 	WRITE(THETA1_ENABLE_PIN, LOW);
 	WRITE(THETA2_ENABLE_PIN, LOW);
 	WRITE(THETA3_ENABLE_PIN, LOW);
-	if (Data.End_Effector == USE_PRINTER)
-	{
-		WRITE(EXTRUSDER_ENABLE_PIN, LOW);
-	}
 }
 
 

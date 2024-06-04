@@ -1,23 +1,3 @@
-/**
- * Delta X Firmware
- * Copyright (c) 2020 DeltaXFirmware [https://github.com/deltaxrobot/Delta-X-Firmware]
- *
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
 #include "GCodeExecute.h"
 
 void GCodeExecuteClass::Init(vector<String>* gCodeQueue)
@@ -98,24 +78,18 @@ void GCodeExecuteClass::WhenFinishMove()
 		if (IsRunning == true)
 		{
 			if (Data.IsExecutedGcode == true)
-			{
 				SERIAL_PORT.println("Ok");	
-			}
 			else
 			{
 				if (Tool.IsWait == true)
 				{
 					if (!Tool.Wait())
-					{
 						return;
-					}
 					SERIAL_PORT.println("Ok");
 					Tool.IsWait = false;
 				}
 				else
-				{
-					SERIAL_PORT.println("Unknown");
-				}				
+					SERIAL_PORT.println("Unknown!!");			
 			}
 			ConnectionState.ResetTimeDisconnect();
 			IsRunning = false;
@@ -226,16 +200,6 @@ void GCodeExecuteClass::checkAndRunFunction(KeyValue keyValue)
 			break;
 		case 84:
 			Control.M84();
-			break;
-		case 104:
-			if (S > 240) S = 240;
-			Control.M104(S);
-			break;
-		case  105:
-			Control.M105();
-			break;
-		case 109:
-			Control.M109();
 			break;
 		case 203:
 			Control.M203(S);

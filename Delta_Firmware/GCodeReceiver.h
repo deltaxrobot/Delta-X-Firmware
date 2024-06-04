@@ -31,9 +31,7 @@
 #include <ArduinoSTL.h>
 #include <vector>
 #include "ConnectionState.h"
-#include "WifiSettings.h"
 #include "Constants.h"
-#include "Temperature.h"
 
 using namespace std;
 
@@ -43,8 +41,9 @@ public:
 	void Init(vector<String>* gCodeQueue, HardwareSerial* serial, unsigned long baudrate);
 
 	void Execute();
+	void Execute_pyserial();
 
-	HardwareSerial* ReceiveSerial;
+	HardwareSerial *ReceiveSerial;
 	unsigned long Baudrate;
 
 	vector<String>* GCodeQueue;

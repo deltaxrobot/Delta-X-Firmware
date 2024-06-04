@@ -60,11 +60,9 @@ typedef enum
 
 typedef enum
 {
-	USE_VACUUM = 0,
 	USE_CLIP,
 	USE_PEN,
 	USE_LASER,
-	USE_PRINTER,
 	USE_CUSTOM
 }END_EFFECTOR;
 

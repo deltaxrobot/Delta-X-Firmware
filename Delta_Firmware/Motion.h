@@ -52,6 +52,7 @@ class MotionClass
 	void G5(float i, float j, float p, float q, float x, float y, float wPos);
 	void G6(float angle1, float angle2, float angle3, float distance);
 	void G28();//Homing
+
 private:
 	uint16_t NumberSegment;
 

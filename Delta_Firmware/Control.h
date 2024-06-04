@@ -32,7 +32,6 @@
 #include "Storage.h"
 #include "EndEffector.h"
 #include "Planner.h"
-#include "Temperature.h"
 #include "Stepper.h"
 #include "GCodeReceiver.h"
 #include "Tool.h"

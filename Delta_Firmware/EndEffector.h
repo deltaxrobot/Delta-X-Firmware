@@ -36,7 +36,6 @@
 #include "fastio.h"
 
 #include "MultiServo.h"
-#include "Temperature.h"
 
 class EndEffectorClass
 {
