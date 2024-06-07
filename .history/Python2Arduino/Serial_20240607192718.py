@@ -11,8 +11,8 @@ gcodes = []
 Circle_r = 100
 Resolution = 2
 
-gcodes.append('G28')
-gcodes.append('G01 F100 Z-450')
+gcodes.append('G28')0/
+gcodes.append('G01 Z-450 F100')
 gcodes.append('G01 X100')
 gcodes.append('G01 Z-578')
 

@@ -6,23 +6,11 @@ ser = serial.Serial('/dev/MEGA2560', 115200, timeout=1)  # open serial port
 time.sleep(2)
 print(ser.readline())
 
-gcodes = []
-
-Circle_r = 100
-Resolution = 2
-
+circle_r = 50
+res
 gcodes.append('G28')
-gcodes.append('G01 F100 Z-450')
-gcodes.append('G01 X100')
-gcodes.append('G01 Z-578')
 
-for degree in range(0, 360, Resolution):
-    x = math.cos(math.radians(degree)) * Circle_r
-    y = math.sin(math.radians(degree)) * Circle_r
-    gcodes.append('G01 X{} Y{}'.format(round(x, 2), round(y, 2)))
-
-gcodes.append('G01 Z-450')
-gcodes.append('G01 X0 Y0')
+gcodes.append(f'G01 X%d Y%d'.format(x,y))
 
 for gcode in gcodes:
     print(gcode)
