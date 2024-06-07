@@ -8,16 +8,16 @@
 #define _DELTAKINEMATICS_h
 
 #if defined(ARDUINO) && ARDUINO >= 100
-	#include "arduino.h"
+#include "Arduino.h"
 #else
-	#include "WProgram.h"
+#include "WProgram.h"
 #endif
 
 #include "Constants.h"
 
 using namespace std;
 
-//trigonometric constants
+// trigonometric constants
 const double tan30 = 1 / sqrt(3);
 const double tan30x05 = 0.5 / sqrt(3);
 const double tan60 = sqrt(3);
@@ -28,10 +28,8 @@ const double sin120 = sqrt(3) / 2;
 
 class DeltaKinematicsClass
 {
- protected:
-
-
- public:
+protected:
+public:
 	void init();
 	bool ForwardKinematicsCalculations(Angle angleposition, Point &point);
 	bool InverseKinematicsCalculations(Point point, Angle &angleposition);
@@ -47,4 +45,3 @@ private:
 extern DeltaKinematicsClass DeltaKinematics;
 
 #endif
-
