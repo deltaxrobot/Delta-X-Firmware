@@ -145,22 +145,6 @@ Description: This command can be used to disable steppers.
 Usage: M84
 --------------------------------------------------------------------------------
 
--M104 – Set Hotend Temperature
-
-Description: Set a new target hot end temperature and continue without waiting. The firmware will continue to try to reach and hold the temperature in the background.
-Usage: M104 [S<temp>]
-Parameters:
-[S<temp>] Target temperature.
---------------------------------------------------------------------------------
-
--M109 – Wait for Hotend Temperature
-
-Description: This command optionally sets a new target hot end temperature and waits for the target temperature to be reached before proceeding.
-Usage: M109 [S<temp>]
-Parameters:
-[S<temp>] Target temperature.
---------------------------------------------------------------------------------
-
 -M203 – Set Max Feedrate
 
 Description: Set the max feedrate for one or more axes.

@@ -22,7 +22,6 @@
 
 void EndEffectorClass::init()
 {
-	pinMode(VACCUM_PIN, OUTPUT);
 
 	pinMode(SPINDLE_LASER_ENABLE_PIN, OUTPUT);
 	pinMode(SPINDLE_LASER_PWM_PIN, OUTPUT);
@@ -38,7 +37,6 @@ void EndEffectorClass::init()
 
 void EndEffectorClass::ResetEndEffectorOutput()
 {
-	analogWrite(VACCUM_PIN, 0);
 
 	analogWrite(SPINDLE_LASER_ENABLE_PIN, 0);
 	analogWrite(SPINDLE_LASER_PWM_PIN, 0);
@@ -47,23 +45,12 @@ void EndEffectorClass::ResetEndEffectorOutput()
 
 	WRITE(EXTRUSDER_ENABLE_PIN, 0);
 
-	Data.ExtrustionPosition = 0;
 
 	if (Data.End_Effector == USE_LASER)
-	{
 		analogWrite(SPINDLE_LASER_ENABLE_PIN, 255);
-	}
 
-	if (Data.End_Effector == USE_PRINTER)
-	{
-		analogWrite(SPINDLE_LASER_ENABLE_PIN, 255);
-		Temperature.init();
-	}
-
-	if (Data.End_Effector != USE_PRINTER && Data.End_Effector != USE_LASER)
-	{
+	if (Data.End_Effector != USE_LASER)
 		MultiServo.ServoArray[1].servo.attach(CLIP_SERVO_PIN);
-	}
 
 	MultiServo.AddAngle(CLAMP, CLIP_OPEN_ANGLE_SERVO);
 	MultiServo.Running();
@@ -73,9 +60,6 @@ void EndEffectorClass::TurnOffEndEffector()
 {
 	switch (Data.End_Effector)
 	{
-	case USE_VACUUM:
-		analogWrite(VACCUM_PIN, 0);
-		break;
 	case USE_LASER:
 		analogWrite(SPINDLE_LASER_PWM_PIN, 0);
 		break;
@@ -89,9 +73,6 @@ void EndEffectorClass::TurnOffEndEffector()
 		digitalWrite(CUSTOM_DIR_PIN, 0);
 		analogWrite(CUSTOM_PWM_PIN, 0);
 		break;
-	case USE_PRINTER:
-		digitalWrite(EXTRUSDER_ENABLE_PIN, 1);
-		break;
 	default:
 		break;
 	}
@@ -101,9 +82,6 @@ void EndEffectorClass::TurnOnEndEffector(byte eValue, bool iSw)
 {
 	switch (Data.End_Effector)
 	{
-	case USE_VACUUM:
-		analogWrite(VACCUM_PIN, 255);
-		break;
 	case USE_LASER:		
 		analogWrite(SPINDLE_LASER_PWM_PIN, eValue);
 		break;
@@ -125,9 +103,6 @@ void EndEffectorClass::TurnOnEndEffector(byte eValue, bool iSw)
 	case USE_CUSTOM:
 		digitalWrite(CUSTOM_DIR_PIN, iSw);
 		analogWrite(CUSTOM_PWM_PIN, eValue);
-		break;
-	case USE_PRINTER:
-		digitalWrite(EXTRUSDER_ENABLE_PIN, 0);
 		break;
 	default:
 		break;

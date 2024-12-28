@@ -46,8 +46,6 @@ public:
 	void	init();
 	void ResetData();
 
-	//
-
 	float	RD_F;
 	float	RD_E;
 	float	RD_RF;
@@ -62,10 +60,10 @@ public:
 	float	MOVING_AREA_Z;
 
 	float	MOVING_AREA_LARGEST_DIAMETER;
-	//
+	
 
-	float	Velocity;			//mm/s
-	float	Acceleration;		//mm/s^2
+	float	Velocity;			// mm/s
+	float	Acceleration;		// mm/s^2
 
 	float MovingHomeSpeed;
 
@@ -91,7 +89,6 @@ public:
 
 	float ZOffset;
 
-	float ExtrustionPosition;
 
 	int WPosition;
 private:

@@ -78,27 +78,6 @@ void ControlClass::M84()
 	Data.IsExecutedGcode = true;
 }
 
-void ControlClass::M104(float s)
-{
-	Temperature.SetHotendTemperature(s);
-
-	Data.IsExecutedGcode = true;
-}
-
-void ControlClass::M105()
-{
-	Temperature.GetTemperature();
-	SERIAL_PORT.print("T:");
-	SERIAL_PORT.println(Temperature.CurrentTemperature);
-	Data.IsExecutedGcode = true;
-}
-
-void ControlClass::M109()
-{
-	Temperature.IsWait = true;
-	Tool.IsWait = true;
-}
-
 void ControlClass::M203(float s)
 {
 	Planner.SetMaxVelocity(s);

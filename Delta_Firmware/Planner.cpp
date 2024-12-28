@@ -110,7 +110,6 @@ void PlannerClass::AddEndSegment(float* offset, float lengthOfRoad)
 		{
 			segbuffer.NumberINT = segbuffer.StepperArray[i].StepsToJump;
 		}
-		//Serial.println(segbuffer.StepperArray[i].StepsToJump);
 	}
 
 	NumberIntRoad += segbuffer.NumberINT;
@@ -262,11 +261,6 @@ void PlannerClass::SetVelocity(float velocity)
 	else
 	{
 		Data.Velocity = velocity;
-	}
-
-	if (Data.End_Effector == USE_PRINTER)
-	{
-		Data.Velocity = velocity / 60;
 	}
 
 	RecalculateBeginEndIntCycle();

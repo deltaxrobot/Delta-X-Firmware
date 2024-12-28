@@ -1,20 +1,13 @@
 /**
- * Delta X Firmware
- * Copyright (c) 2020 DeltaXFirmware [https://github.com/deltaxrobot/Delta-X-Firmware]
- *
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 第46行的變數是用來選擇末端效應器種類
+ * 總共有4種，定義再enum.h中
+ * typedef enum
+ *	{
+ *		USE_CLIP,
+ *		USE_PEN,
+ *		USE_LASER,
+ *		USE_CUSTOM
+ *	}END_EFFECTOR;
  *
  */
 
@@ -50,7 +43,7 @@ void Constants::init()
 	IsMoveWithTheAbsoluteCoordinates = true;
 	IsExecutedGcode = false;
 
-	End_Effector = USE_VACUUM;
+	End_Effector = USE_PEN; //! 末端效應器的選擇
 
 	MMPerLinearSegment = (float)MM_PER_LINEAR_SEGMENT;
 

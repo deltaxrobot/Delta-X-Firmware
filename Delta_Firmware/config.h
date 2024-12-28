@@ -51,12 +51,6 @@
 #endif
 
 
-#define VACUUM
-#ifdef VACUUM
- #define TIME_DELAY_TO_DROP	400 //ms
-#endif // VACUUM
-
-
 #define CLIP
 #ifdef CLIP
  #define CLIP_OPEN_ANGLE_SERVO 110
