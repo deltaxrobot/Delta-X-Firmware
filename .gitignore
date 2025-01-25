@@ -3,5 +3,7 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
+compile_commands.json
+.cache/
 Delta_Firmware/.vs
 Delta_Firmware/CppProperties.json

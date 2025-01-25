@@ -19,6 +19,7 @@
  */
 
 #include "Constants.h"
+#include "config.h"
 
 void Constants::init()
 {
@@ -55,6 +56,8 @@ void Constants::init()
 	MMPerLinearSegment = (float)MM_PER_LINEAR_SEGMENT;
 
 	MMPerArcSegment = (float)MM_PER_ARC_SEGMENT;
+
+	HomingLimit = (int)HOMING_LIMIT;
 }
 
 void Constants::ResetData()

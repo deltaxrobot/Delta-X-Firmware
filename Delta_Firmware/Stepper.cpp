@@ -19,6 +19,7 @@
  */
 
 #include "Stepper.h"
+#include "HardwareSerial.h"
 
 void StepperClass::init(vector<Segment>* SegmentQueue)
 {
@@ -148,8 +149,8 @@ void StepperClass::Running()
 
 	CurrentCycle = Planner.BeginEndIntCycle;
 	MaxCycle = Planner.BeginEndIntCycle;
-	SetIntCycle(CurrentCycle);
-	
+	//SetIntCycle(CurrentCycle);
+	SetIntCycle(0);
 
 	NumberTnterruptAtMinCycle = 0;
 	TotalTnterruptNumber = 0;
@@ -178,16 +179,17 @@ void StepperClass::Homing()
 		setMotorDirection(ThetaStepMotor[i].Name, CurrentMoveSegment.StepperArray[i].Direction);
 	}
 
-	if (IsRunningHome == 1 || IsRunningHome == 2)
-	{
-		CurrentCycle = Planner.HomingIntCycle;
-	}
-	if (IsRunningHome == 3)
-	{
-		CurrentCycle = Planner.HomingIntCycle * 8;
-	}
+	// if (IsRunningHome == 1 || IsRunningHome == 2)
+	// {
+	// 	CurrentCycle = Planner.HomingIntCycle;
+	// }
+	// if (IsRunningHome == 3)
+	// {
+	// 	CurrentCycle = Planner.HomingIntCycle * 8;
+	// }
 
-	SetIntCycle(CurrentCycle);
+	//SetIntCycle(CurrentCycle);
+	SetIntCycle(0);
 
 	IsStoppedMoving = false;
 	TurnOnTimer5;
@@ -235,7 +237,8 @@ void StepperClass::Isr_Execute_Velocity()
 		MaxCycle = CurrentCycle;
 	}
 
-	SetIntCycle(CurrentCycle);
+	//SetIntCycle(CurrentCycle);
+	SetIntCycle(0);
 	//Serial.println(CurrentCycle);
 	//Checking jump step and Accumulated error
 	for (uint8_t i = 0; i < 3; i++)
@@ -297,7 +300,9 @@ void StepperClass::Isr_Execute_Movinghome()
 		}	
 	}
 
-	SetIntCycle(CurrentCycle);
+	//SetIntCycle(CurrentCycle);
+	SetIntCycle(0);
+	
 	TurnOnTimer2;
 	if (IsRunningHome == 2)
 	{
